@@ -1,5 +1,12 @@
 import psycopg2
 
+#To setup this method use this -
+# Install the "psycopg2" Python package
+# `pip3 install psycopg2`
+
+# Create a new file: "sql-psycopg2.py"
+# `touch sql-psycopg2.py`
+
 #connect to chinook database
 connection = psycopg2.connect(database="chinook")
 
