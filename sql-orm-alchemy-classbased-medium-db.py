@@ -67,3 +67,16 @@ base.metadata.create_all(db)
 # query 5 - query Album with ArtistId
 artist = session.query(Album).filter_by(ArtistId=51).first()
 print(artist.AlbumId, artist.Title, artist.ArtistId, sep=" | ")
+
+tracks = session.query(Track).filter_by(Composer="Queen").all()
+for track in tracks:
+    print(track.TrackId,
+          track.Name,
+          track.AlbumId,
+          track.MediaTypeId,
+          track.GenreId,
+          track.Composer,
+          track.Milliseconds,
+          track.Bytes,
+          track.UnitPrice,
+          sep=" | ")
