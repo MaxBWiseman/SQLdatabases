@@ -16,7 +16,7 @@ meta = MetaData()
 # create variable for "Artist" table
 artist_table = Table(
     "Artist", meta,
-    Column("ArtistId", Integer, primary_key=True),
+    Column("ArtistId", Integer, primary_key=True), #Primary keys are unique identifiers
     Column("Name", String)
 )
 
@@ -25,7 +25,7 @@ album_table = Table(
     "Album", meta,
     Column("AlbumId", Integer, primary_key=True),
     Column("Title", String),
-    Column("ArtistId", Integer, ForeignKey("Artist.ArtistId"))
+    Column("ArtistId", Integer, ForeignKey("Artist.ArtistId"))#Foreign keys are references to primary keys in other tables
 )
 
 # create variable for "Track" table
@@ -33,9 +33,9 @@ track_table = Table(
     "Track", meta,
     Column("TrackId", Integer, primary_key=True),
     Column("Name", String),
-    Column("AlbumId", Integer, ForeignKey("Album.AlbumId")),
-    Column("MediaTypeId", Integer, primary_key=False),
-    Column("GenreId", Integer, primary_key=False),
+    Column("AlbumId", Integer, ForeignKey("Album.AlbumId")),#Foreign keys are references to primary keys in other tables
+    Column("MediaTypeId", Integer, primary_key=False),#Not defined as primary key for this lesson
+    Column("GenreId", Integer, primary_key=False),#Not defined as primary key for this lesson
     Column("Composer", String),
     Column("Milliseconds", Integer),
     Column("Bytes", Integer),
