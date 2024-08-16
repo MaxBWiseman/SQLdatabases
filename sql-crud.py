@@ -4,9 +4,9 @@ from sqlalchemy import (
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-#connect to the local database
+# connect to the local database
 db = create_engine("postgresql:///chinook")
-base = declarative_base() #this is the base class for all our models
+base = declarative_base()  # this is the base class for all our models
 
 # create a class-based model for the best programmers in the world table
 class Programmer(base):
@@ -28,18 +28,6 @@ session = Session()
 base.metadata.create_all(db)
 
 # creating records on our programmer table
-
-class Programmer(base):
-    __tablename__ = "programmers"
-    id = Column(Integer, primary_key=True)
-    first_name = Column(String)
-    last_name = Column(String)
-    gender = Column(String)
-    nationality = Column(String)
-    famous_for = Column(String)
-
-
-# for creating records on the programmer table
 ada_lovelace = Programmer(
     first_name="Ada",
     last_name="Lovelace",
@@ -48,26 +36,66 @@ ada_lovelace = Programmer(
     famous_for="First Programmer"
 )
 
+alan_turing = Programmer(
+    first_name="Alan",
+    last_name="Turing",
+    gender="M",
+    nationality="British",
+    famous_for="Modern Computing"
+)
 
+grace_hopper = Programmer(
+    first_name="Grace",
+    last_name="Hopper",
+    gender="F",
+    nationality="American",
+    famous_for="COBOL language"
+)
+
+margaret_hamilton = Programmer(
+    first_name="Margaret",
+    last_name="Hamilton",
+    gender="F",
+    nationality="American",
+    famous_for="Apollo 11"
+)
+
+bill_gates = Programmer(
+    first_name="Bill",
+    last_name="Gates",
+    gender="M",
+    nationality="American",
+    famous_for="Microsoft"
+)
+
+tim_berners_lee = Programmer(
+    first_name="Tim",
+    last_name="Berners-Lee",
+    gender="M",
+    nationality="British",
+    famous_for="World Wide Web"
+)
 
 # add each instance of our programmers to our sessions
-session.add(ada_lovelace)
+#session.add(ada_lovelace)
+session.add(alan_turing)
+session.add(grace_hopper)
+session.add(margaret_hamilton)
+session.add(bill_gates)
+session.add(tim_berners_lee)
 
 # commit our session to the database
 session.commit()
 
-
 # if there is a duplicate record, use this code to delete the extras
-
 #ada_lovelaces = session.query(Programmer).filter_by(first_name="Ada", last_name="Lovelace").all()
-#if len(ada_lovelaces) > 1: #change this to the name of duplicate record
-    #for ada in ada_lovelaces[1:]: #this too
+#if len(ada_lovelaces) > 1:
+    #for ada in ada_lovelaces[1:]:
         #session.delete(ada)
     #session.commit()
 
-
 # query the database to find all programmers
-programmers = session.query(Programmer)
+programmers = session.query(Programmer).all()
 for programmer in programmers:
     print(
         programmer.id,
@@ -76,4 +104,4 @@ for programmer in programmers:
         programmer.nationality,
         programmer.famous_for,
         sep=" | "
-        )
+    )
