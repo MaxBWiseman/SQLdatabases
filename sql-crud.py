@@ -1,5 +1,5 @@
 from sqlalchemy import (
-    create_engine, Column, Integer, String
+    create_engine, Column, Integer, String, or_
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -78,21 +78,28 @@ tim_berners_lee = Programmer(
 
 # add each instance of our programmers to our sessions
 #session.add(ada_lovelace)
-session.add(alan_turing)
-session.add(grace_hopper)
-session.add(margaret_hamilton)
-session.add(bill_gates)
-session.add(tim_berners_lee)
+#session.add(alan_turing)
+#session.add(grace_hopper)
+#session.add(margaret_hamilton)
+#session.add(bill_gates)
+#session.add(tim_berners_lee)
 
 # commit our session to the database
 session.commit()
 
 # if there is a duplicate record, use this code to delete the extras
-#ada_lovelaces = session.query(Programmer).filter_by(first_name="Ada", last_name="Lovelace").all()
-#if len(ada_lovelaces) > 1:
-    #for ada in ada_lovelaces[1:]:
-        #session.delete(ada)
-    #session.commit()
+# Define the conditions for the people you want to delete duplicates for
+#conditions = [
+    #(Programmer.first_name == "Alan", Programmer.last_name == "Turing"),
+    # Add more conditions as needed
+#]
+
+#for condition in conditions:
+    #persons = session.query(Programmer).filter(or_(*condition)).all()
+    #if len(persons) > 1:
+        #for person in persons[1:]:
+            #session.delete(person)
+        #session.commit()
 
 # query the database to find all programmers
 programmers = session.query(Programmer).all()
