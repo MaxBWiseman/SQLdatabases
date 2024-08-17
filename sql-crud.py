@@ -28,6 +28,7 @@ session = Session()
 base.metadata.create_all(db)
 
 # creating records on our programmer table
+"""
 max_wiseman = Programmer(
     first_name="Max",
     last_name="Wiseman",
@@ -36,7 +37,7 @@ max_wiseman = Programmer(
     famous_for="Junior Software Developer"
 )
 
-"""
+
 ada_lovelace = Programmer(
     first_name="Ada",
     last_name="Lovelace",
@@ -93,11 +94,7 @@ tim_berners_lee = Programmer(
 #session.add(margaret_hamilton)
 #session.add(bill_gates)
 #session.add(tim_berners_lee)
-session.add(max_wiseman)
-
-
-# commit our session to the database
-session.commit()
+#session.add(max_wiseman)
 
 # if there is a duplicate record, use this code to delete the extras
 # Define the conditions for the people you want to delete duplicates for
@@ -114,6 +111,14 @@ for condition in conditions:
             session.delete(person)
         session.commit()
 """
+# this is how you woulld update a record
+programmer = session.query(Programmer).filter_by(id=7).first()
+# first() acts as a iterator so we can loop through the results for the first record
+programmer.famous_for = "Microsoft"
+
+# commit our session to the database
+session.commit()
+
 # query the database to find all programmers
 programmers = session.query(Programmer).all()
 for programmer in programmers:
