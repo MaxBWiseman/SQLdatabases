@@ -96,28 +96,51 @@ tim_berners_lee = Programmer(
 #session.add(tim_berners_lee)
 #session.add(max_wiseman)
 
-# if there is a duplicate record, use this code to delete the extras
-# Define the conditions for the people you want to delete duplicates for
-"""
-conditions = [
-    (Programmer.first_name == "Alan", Programmer.last_name == "Turing"),
-     #Add more conditions as needed
-]
 
-for condition in conditions:
-    persons = session.query(Programmer).filter(or_(*condition)).all()
-    if len(persons) > 1:
-        for person in persons[1:]:
-            session.delete(person)
-        session.commit()
-"""
-# this is how you woulld update a record
-programmer = session.query(Programmer).filter_by(id=7).first()
+# this is how you would update a single record
+#programmer = session.query(Programmer).filter_by(id=7).first()
+#programmer.famous_for = "Microsoft"
 # first() acts as a iterator so we can loop through the results for the first record
-programmer.famous_for = "Microsoft"
+"""
+    important to be sure to add the .first() method at the end of our query.
+If you don't add the .first() method, then you'll have to use a for-loop to iterate over
+the query list, even though it'll only find a single record using that ID.
+"""
+
+# updating multiple records
+"""
+people = session.query(Programmer)
+for person in people:
+    if person.gender == "F":
+        person.gender = "Female"
+    elif person.gender == "M":
+        person.gender = "Male"
+    else:
+        print("Gender not specified")
+    session.commit()# commit must be part of the loop to update all records
+"""
+
+# delete a single record
+"""
+fname = input("Enter the first name of the programmer you want to delete: ")
+lname = input("Enter the last name of the programmer you want to delete: ")
+programmer = session.query(Programmer).filter_by(first_name=fname, last_name=lname).first()
+# defensive programming
+if programmer is not None:
+    print("Programmer found: ", programmer.first_name + " " + programmer.last_name)
+    confirmation = input("Are you sure you want to delete this record? (y/n): ")
+    if confirmation.lower() == "y":
+        session.delete(programmer)
+        session.commit()
+        print("Programmer deleted")
+    else:
+        print("Programmer not deleted")
+else:
+    print("Programmer not found")
+"""
 
 # commit our session to the database
-session.commit()
+#session.commit()
 
 # query the database to find all programmers
 programmers = session.query(Programmer).all()
