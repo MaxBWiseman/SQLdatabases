@@ -9,7 +9,9 @@ from sqlalchemy import (
 # `touch sql-expression.py`
 
 # executing the instructions from our localhost "chinook" db
-db = create_engine("postgresql:///chinook")
+db = create_engine("postgresql://max:coco100@localhost/chinook")
+# Notice the use of the username and password, aswell as the localhost and the database name
+# The format is "postgresql://username:password@localhost/databasename"
 
 meta = MetaData()
 

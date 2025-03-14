@@ -17,6 +17,28 @@ If the database you wish to connect to is already active, then skip to the point
     CREATE USER max WITH PASSWORD 'coco100';
     ALTER USER max WITH SUPERUSER;
     ```
+- To leave a postgres user session, use `exit` in the terminal
+  - To return to the CLI use (leave the -d part out if have not yet created the chinook database with the instructions below, or just dont want to opne the chinook database on startup)
+  ```bash
+  psql -U max -d chinook
+  ```
+  - NOTE: sometimes when using postgeSQL locally, the authentication method will be peer, this will need changing to md5 else you will only be able to access the database as the "postgres" user with 
+  ```bash
+  sudo su - postgres
+  psql
+  ```
+  - To change this use `sudo nano /etc/postgresql/12/main/pg_hba.conf` In the terminal and modify this line from 
+  ```bash
+  local   all             all                                     peer
+  ```
+  to
+  ```bash
+  local   all             all                                     md5
+  ```
+  - And then save and exit with `Ctrl+X`, then `Y` and `Enter`.
+  - Be sure to retart the postgres service to apply the changes with `sudo service postgresql restart`
+  This will make the local practice experience feel like a more real scenairo. Logging in as the "postgres" user is fine for local practice, although is less common in the workplace.
+
 - Next we need to populate the postgresSQL server with the .sql files data that was downloaded earlier.
   - Inside the postgres CLI type `\l` to list the current databases installed in the servers enviroment. By default the postgres CLI comes with 3 databases out of the box "postgres", "template0" and "template". Instead of using these lets create a new database with the data from the downloaded .sql file.
   - Use `CREATE DATABASE chinook;` in the CLI and then use `\l` again to view the new database.
@@ -87,3 +109,18 @@ If the database you wish to connect to is already active, then skip to the point
     for result in results:
         print(result)
     ```
+
+### SQLAlchemy
+
+Some of the best reasons to use SQLAlchemy include having cleaner code, the logic is
+simple, and your code is more secure than using raw SQL commands.
+In fact, the SQLAlchemy library comes with three different layers of abstraction, meaning
+you can choose the level of support necessary for your applications.
+The lowest layer of abstraction is to simply use SQLAlchemy's engine component in order
+to execute raw SQL, nothing too complex or fancy.
+The middle layer of abstraction uses SQLAlchemy's Expression Language to build SQL statements
+in a more Pythonic way, instead of relying purely on those raw strings.
+The highest layer of abstraction uses SQLAlchemy's full ORM capabilities, allowing us to make
+use of Python classes and objects, instead of using database tables and connections.
+With each level of abstraction, you, as a user, are moved further away from writing
+raw SQL, and using more Python.
