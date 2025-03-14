@@ -2,7 +2,7 @@ from sqlalchemy import (
     create_engine, Table, Column, Float, ForeignKey, Integer, String, MetaData
 )
 
-#To use this method use this -
+# To use this method use this -
 # Install the "SQLAlchemy" Python package
 # `pip3 install SQLAlchemy`
 # Create a new file called "sql-expression.py"
@@ -18,7 +18,8 @@ meta = MetaData()
 # create variable for "Artist" table
 artist_table = Table(
     "Artist", meta,
-    Column("ArtistId", Integer, primary_key=True), #Primary keys are unique identifiers
+    # Primary keys are unique identifiers
+    Column("ArtistId", Integer, primary_key=True),
     Column("Name", String)
 )
 
@@ -27,7 +28,8 @@ album_table = Table(
     "Album", meta,
     Column("AlbumId", Integer, primary_key=True),
     Column("Title", String),
-    Column("ArtistId", Integer, ForeignKey("Artist.ArtistId"))#Foreign keys are references to primary keys in other tables
+    # Foreign keys are references to primary keys in other tables
+    Column("ArtistId", Integer, ForeignKey("Artist.ArtistId"))
 )
 
 # create variable for "Track" table
@@ -35,9 +37,12 @@ track_table = Table(
     "Track", meta,
     Column("TrackId", Integer, primary_key=True),
     Column("Name", String),
-    Column("AlbumId", Integer, ForeignKey("Album.AlbumId")),#Foreign keys are references to primary keys in other tables
-    Column("MediaTypeId", Integer, primary_key=False),#Not defined as primary key for this lesson
-    Column("GenreId", Integer, primary_key=False),#Not defined as primary key for this lesson
+    # Foreign keys are references to primary keys in other tables
+    Column("AlbumId", Integer, ForeignKey("Album.AlbumId")),
+    # Not defined as primary key for this lesson
+    Column("MediaTypeId", Integer, primary_key=False),
+    # Not defined as primary key for this lesson
+    Column("GenreId", Integer, primary_key=False),
     Column("Composer", String),
     Column("Milliseconds", Integer),
     Column("Bytes", Integer),

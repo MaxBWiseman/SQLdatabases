@@ -9,6 +9,8 @@ db = create_engine("postgresql:///chinook")
 base = declarative_base()  # this is the base class for all our models
 
 # create a class-based model for the best programmers in the world table
+
+
 class Programmer(base):
     __tablename__ = "programmers"
     id = Column(Integer, primary_key=True)
@@ -17,6 +19,7 @@ class Programmer(base):
     gender = Column(String)
     nationality = Column(String)
     famous_for = Column(String)
+
 
 # instead of connecting to the database directly, we will ask for a session
 # create a new instance of sessionmaker, then point to our engine (the database)
@@ -88,18 +91,18 @@ tim_berners_lee = Programmer(
 """
 
 # add each instance of our programmers to our sessions
-#session.add(ada_lovelace)
-#session.add(alan_turing)
-#session.add(grace_hopper)
-#session.add(margaret_hamilton)
-#session.add(bill_gates)
-#session.add(tim_berners_lee)
-#session.add(max_wiseman)
+# session.add(ada_lovelace)
+# session.add(alan_turing)
+# session.add(grace_hopper)
+# session.add(margaret_hamilton)
+# session.add(bill_gates)
+# session.add(tim_berners_lee)
+# session.add(max_wiseman)
 
 
 # this is how you would update a single record
-#programmer = session.query(Programmer).filter_by(id=7).first()
-#programmer.famous_for = "Microsoft"
+# programmer = session.query(Programmer).filter_by(id=7).first()
+# programmer.famous_for = "Microsoft"
 # first() acts as a iterator so we can loop through the results for the first record
 """
     important to be sure to add the .first() method at the end of our query.
@@ -140,7 +143,7 @@ else:
 """
 
 # commit our session to the database
-#session.commit()
+# session.commit()
 
 # query the database to find all programmers
 programmers = session.query(Programmer).all()
