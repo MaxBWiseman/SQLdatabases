@@ -120,3 +120,6 @@ with db.connect() as connection:
     results = connection.execute(select_query)
     for result in results:
         print(result)
+
+# Although the initial setup might've taken a bit longer, by defining each table, you
+# can see that the execution of the query is actually quite simple.
