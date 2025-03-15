@@ -145,6 +145,12 @@ tim_berners_lee = Programmer(
 # else:
 #     print("Programmer not found")
 
+# Delete multiple records
+# programmers = session.query(Programmer)
+# for programmer in programmers:
+#     session.delete(programmer)
+#     session.commit()
+# print("All programmers deleted")
 
 # NOTE: you must commit the session to the database else it wont be saved
 session.commit()
