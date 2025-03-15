@@ -1,16 +1,20 @@
 from sqlalchemy import (
     create_engine, Column, Float, ForeignKey, Integer, String, select
 )
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 
 # connect to the local database
 db = create_engine("postgresql:///chinook")
 base = declarative_base()  # this is the base class for all our models
 
+# Both of these concepts, using the declarative_base and sessionmaker (further below), are using the highest layer
+# of abstraction versus how we did this with the Expression Language.
+# This is bringing us further away from writing raw SQL commands, and allowing us to use more
+# Python logic, without having to focus too much on database tables directly.
+
+
+
 # create a class-based model for the Artist table
-
-
 class Artist(base):
     __tablename__ = "Artist"
 
@@ -49,6 +53,10 @@ class Track(base):
 Session = sessionmaker(db)
 # opens an actual session by calling the Session() class defined above
 session = Session()
+
+# The last thing we need to do before we can work with our database, is to actually create
+# the database subclass and generate all metadata. The base variable, given that it's a subclass
+# from the declarative_base, will now use the .create_all() method from our database metadata.
 
 # creating the database using declarative_base subclass
 base.metadata.create_all(db)

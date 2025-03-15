@@ -1,18 +1,17 @@
 from sqlalchemy import (
-    create_engine, Column, Integer, String, or_
+    create_engine, Column, Integer, String
 )
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 
 # connect to the local database
-db = create_engine("postgresql:///chinook")
+db = create_engine("postgresql://max:coco100@localhost/chinook")
 base = declarative_base()  # this is the base class for all our models
 
 # create a class-based model for the best programmers in the world table
-
-
+# we will create a table called "programmers" with the following columns in the chinook db:
 class Programmer(base):
     __tablename__ = "programmers"
+    # the table name will show in the database as "programmers"
     id = Column(Integer, primary_key=True)
     first_name = Column(String)
     last_name = Column(String)
@@ -31,7 +30,7 @@ session = Session()
 base.metadata.create_all(db)
 
 # creating records on our programmer table
-"""
+
 max_wiseman = Programmer(
     first_name="Max",
     last_name="Wiseman",
@@ -88,9 +87,10 @@ tim_berners_lee = Programmer(
     nationality="British",
     famous_for="World Wide Web"
 )
-"""
 
-# add each instance of our programmers to our sessions
+
+# add each instance of our programmers to our sessions either one by one or all at once
+# uncomment the lines below to add the records to the database
 # session.add(ada_lovelace)
 # session.add(alan_turing)
 # session.add(grace_hopper)
@@ -99,51 +99,55 @@ tim_berners_lee = Programmer(
 # session.add(tim_berners_lee)
 # session.add(max_wiseman)
 
+# NOTE: Below are the CRUD operations for the database
 
 # this is how you would update a single record
 # programmer = session.query(Programmer).filter_by(id=7).first()
 # programmer.famous_for = "Microsoft"
 # first() acts as a iterator so we can loop through the results for the first record
-"""
-    important to be sure to add the .first() method at the end of our query.
-If you don't add the .first() method, then you'll have to use a for-loop to iterate over
-the query list, even though it'll only find a single record using that ID.
-"""
+
+# important to be sure to add the .first() method at the end of our query.
+# If you don't add the .first() method, then you'll have to use a for-loop to iterate over
+# the query list, even though it'll only find a single record using that ID.
+
 
 # updating multiple records
-"""
-people = session.query(Programmer)
-for person in people:
-    if person.gender == "F":
-        person.gender = "Female"
-    elif person.gender == "M":
-        person.gender = "Male"
-    else:
-        print("Gender not specified")
-    session.commit()# commit must be part of the loop to update all records
-"""
+# people = session.query(Programmer)
+# for person in people:
+#     if person.gender == "F":
+#         person.gender = "Female"
+#     elif person.gender == "M":
+#         person.gender = "Male"
+#     else:
+#         print("Gender not specified")
+#     session.commit()
+    
+# commit must be part of the loop to update all records
+
 
 # delete a single record
-"""
-fname = input("Enter the first name of the programmer you want to delete: ")
-lname = input("Enter the last name of the programmer you want to delete: ")
-programmer = session.query(Programmer).filter_by(first_name=fname, last_name=lname).first()
-# defensive programming
-if programmer is not None:
-    print("Programmer found: ", programmer.first_name + " " + programmer.last_name)
-    confirmation = input("Are you sure you want to delete this record? (y/n): ")
-    if confirmation.lower() == "y":
-        session.delete(programmer)
-        session.commit()
-        print("Programmer deleted")
-    else:
-        print("Programmer not deleted")
-else:
-    print("Programmer not found")
-"""
 
-# commit our session to the database
-# session.commit()
+# fname = input("Enter the first name of the programmer you want to delete: ")
+# lname = input("Enter the last name of the programmer you want to delete: ")
+# # We need to query the Programmer table, and using the .filter_by() method, we can simply plug-in those two variables
+# # collected from the user above.
+# programmer = session.query(Programmer).filter_by(first_name=fname, last_name=lname).first()
+# # defensive programming
+# if programmer is not None:
+#     print("Programmer found: ", programmer.first_name + " " + programmer.last_name)
+#     confirmation = input("Are you sure you want to delete this record? (y/n): ")
+#     if confirmation.lower() == "y":
+#         session.delete(programmer)
+#         session.commit()
+#         print("Programmer deleted")
+#     else:
+#         print("Programmer not deleted")
+# else:
+#     print("Programmer not found")
+
+
+# NOTE: you must commit the session to the database else it wont be saved
+session.commit()
 
 # query the database to find all programmers
 programmers = session.query(Programmer).all()
